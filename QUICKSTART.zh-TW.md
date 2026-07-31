@@ -2,7 +2,13 @@
 
 ## 第一次一鍵安裝
 
-在 PowerShell 或命令提示字元執行：
+在 PowerShell 執行以下單一命令，即可安裝並在目前視窗啟用環境：
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass -Force; . .\setup.ps1 -Activate
+```
+
+若只想安裝、不啟用，則可在 PowerShell 或命令提示字元執行：
 
 ```powershell
 cd C:\Users\user\Desktop\SCQPMeasurement

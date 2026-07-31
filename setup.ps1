@@ -1,5 +1,7 @@
 [CmdletBinding()]
-param()
+param(
+    [switch]$Activate
+)
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = $PSScriptRoot
@@ -65,4 +67,10 @@ Then run .\setup.cmd again.
 }
 finally {
     Pop-Location
+}
+
+if ($Activate) {
+    $ActivateScript = Join-Path $ProjectRoot ".venv\Scripts\Activate.ps1"
+    . $ActivateScript
+    Write-Host "Virtual environment activated in this PowerShell session." -ForegroundColor Green
 }
