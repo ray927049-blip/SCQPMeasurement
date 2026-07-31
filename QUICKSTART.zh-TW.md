@@ -45,7 +45,7 @@ Set-ExecutionPolicy -Scope Process Bypass
 
 ## 離線 dummy 測量
 
-這個命令不會匯入 Qblox driver、不會開啟網路連線，也不需要 `--execute`：
+這個命令模擬 qubit-resonator dispersive readout 的 power-frequency sweep，不會匯入 Qblox driver、不會開啟網路連線，也不需要 `--execute`：
 
 ```powershell
 python -m experiments.dummy_measurement --config hardware_config.json
@@ -56,15 +56,19 @@ python -m experiments.dummy_measurement --config hardware_config.json
 ```powershell
 python -m experiments.dummy_measurement `
   --config hardware_config.json `
-  --start-hz 5e9 --stop-hz 7e9 --points 201 `
-  --resonance-hz 6.1e9 --linewidth-hz 80e6 --seed 42
+  --resonance-hz 6e9 --start-hz 5.99e9 --stop-hz 6.01e9 --points 301 `
+  --chi-hz 2e6 --linewidth-hz 1.5e6 `
+  --power-start-dbm -70 --power-stop-dbm -20 --power-points 51 `
+  --critical-power-dbm -35 --seed 42
 ```
 
-結果會存入 `data\日期\dummy_measurement_時間戳\`，包含：
+模型令 qubit 在 `|g>` 和 `|e>` 時的低功率 resonator 頻率分別為 `fr-chi` 與 `fr+chi`，因此兩條 resonance 的間距是 `2*chi`；超過 critical power 後，有效 dispersive shift 會逐漸縮小。
 
-- `dummy_transmission.csv`
-- `dummy_transmission.nc`
-- `dummy_transmission.png`
+結果會存入 `data\日期\dummy_dispersive_power_時間戳\`，包含：
+
+- `dummy_dispersive_power.csv`
+- `dummy_dispersive_power.nc`
+- `dummy_dispersive_power.png`
 - `hardware_config_snapshot.json`
 - `parameters.json`
 - `instrument_status.json`

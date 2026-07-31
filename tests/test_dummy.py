@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from scqp_qblox.data import save_frequency_sweep
-from scqp_qblox.dummy import synthetic_transmission
+from scqp_qblox.dummy import synthetic_dispersive_power_sweep, synthetic_transmission
 
 
 def test_dummy_transmission_is_reproducible_and_has_a_resonance_dip():
@@ -56,3 +56,26 @@ def test_dummy_data_pipeline_writes_all_output_formats(tmp_path):
     assert (tmp_path / "dummy.csv").is_file()
     assert (tmp_path / "dummy.nc").is_file()
     assert (tmp_path / "dummy.png").is_file()
+
+
+def test_dispersive_power_sweep_resolves_two_chi_and_power_collapse():
+    frequencies = np.linspace(5.990e9, 6.010e9, 2001)
+    powers = np.array([-70.0, -20.0])
+    i_values, q_values, effective_chi = synthetic_dispersive_power_sweep(
+        frequencies,
+        powers,
+        resonator_hz=6.0e9,
+        chi_hz=2.0e6,
+        linewidth_hz=1.0e6,
+        critical_power_dbm=-35.0,
+        noise_std=0.0,
+    )
+
+    assert i_values.shape == (2, 2, 2001)
+    assert q_values.shape == (2, 2, 2001)
+    low_power_dips = [
+        frequencies[np.argmin(np.hypot(i_values[state, 0], q_values[state, 0]))]
+        for state in range(2)
+    ]
+    assert low_power_dips[1] - low_power_dips[0] == pytest.approx(4.0e6, abs=20.0e3)
+    assert effective_chi[1] < effective_chi[0]
