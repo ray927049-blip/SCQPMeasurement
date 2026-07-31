@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "cluster": {
+    "name": "scqp_cluster",
+    "address": "REPLACE_WITH_CLUSTER_IP_OR_HOSTNAME",
+    "reference_clock": "internal"
+  },
+  "modules": {
+    "qcm": {
+      "slot": 2,
+      "expected_type": "QCM",
+      "left_flux_output": 0,
+      "right_flux_output": 1,
+      "parametric_sequencer": 0
+    },
+    "qcm_rf": {
+      "slot": 4,
+      "expected_type": "QCM-RF II",
+      "sequencer": 0,
+      "output": 0,
+      "lo_frequency_hz": 3000000000,
+      "nco_frequency_hz": 50000000,
+      "output_attenuation_db": 30
+    },
+    "qrm_rf": {
+      "slot": 6,
+      "expected_type": "QRM-RF",
+      "sequencer": 0,
+      "output": 0,
+      "input": 0,
+      "lo_frequency_hz": 5950000000,
+      "nco_frequency_hz": 50000000,
+      "output_attenuation_db": 60,
+      "input_attenuation_db": 30
+    }
+  },
+  "connections": {
+    "left_flux": "qcm.out0",
+    "right_flux": "qcm.out1",
+    "microwave_tx": "qrm_rf.out0",
+    "microwave_rx": "qrm_rf.in0",
+    "optional_microwave_drive": "qcm_rf.out0"
+  },
+  "sample": {
+    "name": "lambda_scqp",
+    "has_resonator": false,
+    "microwave_topology": "transmission",
+    "microwave_input_connector": "UNVERIFIED",
+    "microwave_output_connector": "UNVERIFIED"
+  },
+  "flux": {
+    "left_idle_voltage_v": 0.0,
+    "right_idle_voltage_v": 0.0,
+    "left_min_voltage_v": -0.01,
+    "left_max_voltage_v": 0.01,
+    "right_min_voltage_v": -0.01,
+    "right_max_voltage_v": 0.01,
+    "ramp_step_v": 0.0001,
+    "ramp_delay_s": 0.01,
+    "volts_per_phi0": null,
+    "line_bandwidth_hz": null,
+    "crosstalk_matrix": null,
+    "uses_external_dc_source": false,
+    "uses_bias_tee": false
+  },
+  "microwave_chain": {
+    "source_to_sample_attenuation_db": null,
+    "sample_to_adc_gain_db": null,
+    "input_protection_attenuation_db": null,
+    "loopback_fixed_attenuation_db": null,
+    "max_device_input_dbm": null,
+    "max_qrm_rf_operating_input_dbm": 5
+  },
+  "defaults": {
+    "waveform_length_ns": 100,
+    "waveform_amplitude": 0.002,
+    "repeat_count": 100,
+    "repeat_period_ns": 20000,
+    "acquisition_length_ns": 1000,
+    "averages": 100,
+    "timeout_minutes": 1.0,
+    "probe_start_hz": 5000000000,
+    "probe_stop_hz": 7000000000,
+    "probe_points": 201,
+    "parametric_start_hz": 10000000,
+    "parametric_stop_hz": 400000000,
+    "parametric_points": 101
+  },
+  "safety": {
+    "require_execute_flag": true,
+    "allow_cluster_reset": false,
+    "max_abs_static_flux_voltage_v": 0.01,
+    "max_flux_waveform_amplitude": 0.01,
+    "max_qcm_parametric_frequency_hz": 400000000,
+    "min_rf_frequency_hz": 2000000000,
+    "max_rf_frequency_hz": 18500000000,
+    "max_qcm_rf_output_amplitude": 0.01,
+    "max_qrm_rf_output_amplitude": 0.01,
+    "max_duty_cycle": 0.1
+  },
+  "external_parametric_source": {
+    "enabled": false,
+    "address": null,
+    "min_frequency_hz": null,
+    "max_frequency_hz": null,
+    "shares_10mhz_reference": false,
+    "trigger_marker": null
+  }
+}
