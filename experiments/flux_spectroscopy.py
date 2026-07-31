@@ -128,6 +128,9 @@ def main() -> None:
         parameters=parameters,
         status={"points_completed": completed, "last_sequencer_status": last_status},
     )
+    import matplotlib
+
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     fig, axis = plt.subplots(constrained_layout=True)

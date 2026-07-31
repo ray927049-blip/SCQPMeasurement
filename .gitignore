@@ -1,4 +1,8 @@
 .venv/
+.uv-cache/
+.mplconfig/
+.runtime/
+*.egg-info/
 __pycache__/
 *.py[cod]
 hardware_config.json

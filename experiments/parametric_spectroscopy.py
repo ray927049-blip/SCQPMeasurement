@@ -169,6 +169,9 @@ def main() -> None:
         parameters=parameters,
         status={"measurements_completed": len(statuses), "last_sequencer_status": statuses[-1]},
     )
+    import matplotlib
+
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     fig, axes = plt.subplots(2, 1, sharex=True, constrained_layout=True)

@@ -49,6 +49,9 @@ def save_frequency_sweep(
     q_values: np.ndarray,
     prefix: str = "transmission",
 ) -> None:
+    import matplotlib
+
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     import xarray as xr
 
